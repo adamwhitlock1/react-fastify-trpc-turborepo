@@ -9,12 +9,19 @@ import {
 import { useCallback } from "react";
 import { useFormik } from "formik";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { trpc } from "../hooks/trpc";
+import LoadingIndicator from "./shared/LoadingIndicator";
+import LoginButton from "./auth/LoginButton";
+import LogoutButton from "./auth/LogoutButton";
+
 interface IFormFields {
   content: string;
 }
 
 const AppBody = () => {
+  const { user, isAuthenticated } = useAuth0();
   const utils = trpc.useContext();
   const getNotes = trpc.useQuery(["getNotes"]);
   const createNote = trpc.useMutation(["createNote"]);
@@ -54,6 +61,17 @@ const AppBody = () => {
 
   return (
     <Container>
+      <LoadingIndicator />
+
+      {isAuthenticated ? (
+        <>
+          <LogoutButton />
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+        </>
+      ) : (
+        <LoginButton></LoginButton>
+      )}
+
       <form
         onSubmit={formik.handleSubmit}
         style={{

@@ -13,6 +13,7 @@
     "@prisma/client": "^4.0.0",
     "@trpc/server": "^9.25.3",
     "fastify": "^4.2.0",
+    "fastify-auth0-verify": "^0.8.3",
     "zod": "^3.17.3"
   },
   "devDependencies": {

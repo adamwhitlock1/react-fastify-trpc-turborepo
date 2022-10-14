@@ -7,6 +7,14 @@ export const appRouter = trpc
   .router<Context>()
   .query("getNotes", {
     async resolve({ ctx }) {
+      console.log({ ctx });
+      try {
+        const user = await ctx.req.jwtVerify();
+        console.log({ JWTverify: user });
+      } catch (e) {
+        console.log("ERROR");
+        console.log(e);
+      }
       return await ctx.prisma.note.findMany();
     },
   })
